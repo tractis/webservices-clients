@@ -2,3 +2,8 @@ Abstract
 --------
 This project will include a bunch of libraries to invoke Tractis Webservices' services from different programming languages.
 Those libraries will be organized first according to the language used to program them and then to the service they invoke.
+
+Roadmap
+-------
+No roadmap has been specified yet. We'll be adding features and clients as long as we're releasing them or our clients keep asking for a certain missing feature or lang.
+Contributions are greatly welcome. If you could provide an implementation on a programming language not listed yet just submit it and we'll be very happy to include it on the project.

@@ -1,0 +1,47 @@
+Abstract
+--------
+This is a ruby client for DSS based webservices.
+
+It allows signature verification/update using DSS's VerifyRequest and timestamp generation using SignRequest.
+
+This client implements only a subset of all the features defined on DSS 1.0 . It has been test with Tractis Webservices but should be compatible with other servers implementing DSS.
+
+Installation
+------------
+We offer a Rakefile generating a gem. You can use the client inside a gem or in any other flavour that you may want.
+
+To generate the gem just go to  webservices-clients/ruby/dss_based and type : 
+	
+	rake gem
+
+This will generate the gem file. To install the gem from the same dir just type:
+	
+	sudo gem install dss_client-0.0.1.gem
+
+Once installed check it's available on system gems typing :
+
+	gem list 
+
+It must include a line showing dss_client (0.0.1).
+
+Usage
+-----
+With the gem installed just require it to start using it. 
+
+require 'rubygems'
+require 'dss_client'
+
+connector = DssClient.new
+
+Now to validate a signature (detached) over a document just perform
+
+	result = @connector.validate_signature(signature, document, {})
+
+Result will include the validation result.
+
+To validate and update a signature to a form (f.ex XAdES X-L)
+
+	result = @connector.validate_signature(signature, document, {:form => 'urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-X-L'})
+
+Result will include the validation result as well as the updated signature.
+

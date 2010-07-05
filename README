@@ -1,0 +1,4 @@
+Abstract
+--------
+This project will include a bunch of libraries to invoke Tractis Webservices' services from different programming languages.
+Those libraries will be organized first according to the language used to program them and then to the service they invoke.

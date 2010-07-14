@@ -44,7 +44,7 @@ class TestDssClient < Test::Unit::TestCase
 	def setup
 		# Points to tractis env, if you want to test it point to backend.tractis.com and fill credentials 
 		# but this will generate real requests so beware of costs
-		@connector = DssClient.new("https://trunk.tractis.com/is2/dss/verify")
+		@connector = DssClient.new()
 	end
 
 

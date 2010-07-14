@@ -1,3 +1,7 @@
+#The class holding the result from the DSSService invoke. 
+#On validation results it includes the result of the validation process. 
+#On update processes it includes, additionally to the validation result, the updated signature(s)
+
 require 'rexml/document'
 class  DssResponse
 	attr_reader :major, :minor
@@ -9,18 +13,22 @@ class  DssResponse
     		@minor = REXML::XPath.first @element, '//dss:ResultMinor', namespaces
 	end
 
+	#True if the signature is valid
 	def valid?
 	        return ( major.text.include?('Success') and minor.text.include?('OnAllDocuments')  )
 	end
 
+	#True if the signature is not valid
 	def invalid?
 		return ( major.text.include?('Success') and minor.text.include?('IncorrectSignature')  )
 	end
 
+	#True if the server cannot determine signature's validity, f.ex CRLs or OCSP not available on the invocation instant
 	def unknown?
 		return ( major.text.include?('InsufficientInformation') )
 	end
 
+	#The updated signatures, returns a Hash indexed with the form of the signature
 	def updated_signatures
 		signatures = {}
 
@@ -33,6 +41,7 @@ class  DssResponse
 		return signatures
 	end
 
+
 	def signature_object
 		result = []
 		execute_xpath('//dss:SignResponse/dss:SignatureObject').each do |signature_object|
@@ -40,7 +49,9 @@ class  DssResponse
 		end
 		result
 	end
-	
+
+private	
+
 	def to_s
 		"#{major}:#{minor}"
 	end

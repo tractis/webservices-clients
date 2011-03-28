@@ -43,10 +43,13 @@ public class HTTPCommunicationManager {
 		}
 		
 		HttpClient client = new HttpClient(params);
+
 		//Setting credentials
 		client.getState().setCredentials(
 				new AuthScope(uri.getHost(), uri.getPort()), 
 				new UsernamePasswordCredentials(tractis.webservices.clients.java.auth.Credentials.user, tractis.webservices.clients.java.auth.Credentials.pass) );
+
+		client.getParams().setAuthenticationPreemptive(true);
 
 		HostConfiguration hostConfiguration = new HostConfiguration();
 		hostConfiguration.setHost(uri.toString());

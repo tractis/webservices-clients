@@ -1,0 +1,266 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:tractis="http://storage.tractis.com/"
+	targetNamespace="http://storage.tractis.com/" name="tractis">
+	
+<!-- Schema Type Definitions -->
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        targetNamespace="http://storage.tractis.com/"
+        xmlns:store="http://storage.tractis.com/">
+
+	<!--Stores a single content -->
+	<xs:element name="ContentStoreRequest">
+	<xs:complexType>
+            <xs:sequence>
+                <xs:element ref="store:Content"/>
+                <xs:element ref="store:Properties"/>
+            </xs:sequence>
+        </xs:complexType>
+	</xs:element>		
+	
+	<xs:element name="ContentStoreResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="store:ContentIdentifier"/> <!--the identifier of the newly created content -->
+				<xs:element name="Message" type="xs:string"/> <!--The message with the result returned by the server -->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="ContentIdentifier" type="xs:string"/>
+	
+	<xs:element name="Content" type="xs:base64Binary"/>
+		
+	<xs:element name="Properties">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="store:Property"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="Property">
+		<xs:complexType>
+					<xs:attribute name="name" type="xs:string"/>
+		            <xs:attribute name="value" type="xs:string"/>		
+		</xs:complexType>
+	</xs:element>
+	
+	<!--Recovers a content using it's identifier or it's attached properties -->
+	<xs:element name="ContentRecoverRequest">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="store:ContentIdentifier"/>
+                <xs:element ref="store:Properties"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+	
+	<!--The response could be a set of protected contents or a server message -->
+	<xs:element name="ContentRecoverResponse">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="store:ProtectedContent"/>
+				</xs:sequence>
+				<xs:element name="ServerMessage" type="xs:string"/>
+			</xs:choice>	
+		</xs:complexType>
+	</xs:element>
+	
+	<!--Content remove-->
+	<xs:element name="ContentRemoveRequest">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="store:ContentIdentifier"/>
+                <xs:element ref="store:Properties"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+	
+	
+	<!--The response includes all deleted elements with their protection measures -->
+	<xs:element name="ContentRemoveResponse">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="store:ProtectedContent"/>
+				</xs:sequence>
+				<xs:element name="ServerMessage" type="xs:string"/>
+			</xs:choice>	
+		</xs:complexType>
+	</xs:element>
+	
+	<!--Content listing-->
+	<xs:element name="ContentListRequest">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+                	<xs:element ref="store:Properties"/>
+				</xs:sequence>
+			</xs:choice>	
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<xs:element name="ContentListResponse">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="store:ContentIdentifier"/>
+				</xs:sequence>
+				<xs:element name="ServerMessage" type="xs:string"/>
+			</xs:choice>	
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="ProtectedContent">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="store:Content"/>
+				<xs:element ref="store:ContentIdentifier"/>
+				<xs:element ref="store:Properties"/>
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="store:ProtectionMeasure"/>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	
+	<!--A protection measure applied over the content like for example a timestamp-->
+	<xs:element name="ProtectionMeasure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProtectionContent" type="xs:base64Binary"/> <!-- The encoded of the measure itself -->
+				<xs:element name="ProtectionType" type="xs:string"/> <!--The MIME type of the protection measure -->
+				<xs:element name="ApplicationDate" type="xs:date"/> <!--When was this measure applied -->
+				<xs:element name="ExpirationDate" type="xs:date"/>	<!--The expiration date of the measure -->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+		
+</xs:schema>    
+</types>
+	
+<!--Messages-->
+	<message name="ContentStoreRequest">
+		<part name="ContentStoreRequest" element="tractis:ContentStoreRequest"/>
+    </message>
+
+	<message name="ContentStoreResponse">
+		<part name="ContentStoreResponse" element="tractis:ContentStoreResponse"/>
+	</message>
+
+	<message name="ContentRecoverRequest">
+		<part name="ContentRecoverRequest" element="tractis:ContentRecoverRequest"/>
+	</message>
+
+	<message name="ContentRecoverResponse">
+		<part name="ContentRecoverResponse" element="tractis:ContentRecoverResponse"/>
+	</message>
+	
+	<message name="ContentRemoveRequest">
+		<part name="ContentRemoveRequest" element="tractis:ContentRemoveRequest"/>
+	</message>
+
+	<message name="ContentRemoveResponse">
+		<part name="ContentRemoveResponse" element="tractis:ContentRemoveResponse"/>
+	</message>
+	
+	<message name="ContentListRequest">
+		<part name="ContentListRequest" element="tractis:ContentListRequest"/>
+	</message>
+
+	<message name="ContentListResponse">
+		<part name="ContentListResponse" element="tractis:ContentListResponse"/>
+	</message>
+
+<!-- PortTypes -->
+
+	<portType name="SOAPport">
+
+	<operation name="store">
+		<input message="tractis:ContentStoreRequest"/>
+		<output message="tractis:ContentStoreResponse"/>
+	</operation>
+
+	<operation name="recover">
+		<input message="tractis:ContentRecoverRequest"/>
+		<output message="tractis:ContentRecoverResponse"/>
+	</operation>
+	
+	<operation name="remove">
+		<input message="tractis:ContentRemoveRequest"/>
+		<output message="tractis:ContentRemoveResponse"/>
+	</operation>
+	
+	<operation name="list">
+		<input message="tractis:ContentListRequest"/>
+		<output message="tractis:ContentListResponse"/>
+	</operation>
+	
+	</portType>
+
+<!-- Bindings -->
+<binding name="SOAPBinding" type="tractis:SOAPport">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+<operation name="store">
+	<soap:operation/>
+	<input>
+		<soap:body use="literal"/>
+	</input>
+
+	<output>
+		<soap:body use="literal"/>
+	</output>
+
+</operation>
+
+<operation name="recover">
+	<soap:operation/>
+	<input>
+		<soap:body use="literal"/>
+	</input>
+
+	<output>
+		<soap:body use="literal"/>
+	</output>
+</operation>
+
+<operation name="remove">
+	<soap:operation/>
+	<input>
+		<soap:body use="literal"/>
+	</input>
+
+	<output>
+		<soap:body use="literal"/>
+	</output>
+</operation>
+
+<operation name="list">
+	<soap:operation/>
+	<input>
+		<soap:body use="literal"/>
+	</input>
+
+	<output>
+		<soap:body use="literal"/>
+	</output>
+</operation>
+
+</binding>
+<!--Service definition-->
+<service name="contentStorageService">
+	<port name="contentStoragePortSoap" binding="tractis:SOAPBinding">
+		<soap:address location="https://api.tractis.com/lta"/>
+	</port>
+</service>
+
+</definitions>

@@ -1,0 +1,6 @@
+#client.protocol.http.basic_auth.1.url=https://api.tractis.com/lta
+client.protocol.http.basic_auth.1.url=http://trunk.tractis.com:8080/content_storage/lta
+client.protocol.http.basic_auth.1.userid=services
+client.protocol.http.basic_auth.1.password=X169jP968aBcF
+#client.protocol.http.basic_auth.1.userid=32e087dc-1075-435e-b5ea-758a420758a1
+#client.protocol.http.basic_auth.1.password=e0b9c6cc0816d014a832526efef31898ea84e64b

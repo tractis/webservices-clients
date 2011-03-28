@@ -1,0 +1,60 @@
+-Description
+
+This client is a reference implementation to use Tractis Long Term Archive service. It's built over soap4r gem. Currently it implements content store and recover by id or properties. 
+
+You can create your own using the service description file available at https://api.tractis.com/lta/content_storage.wsdl .
+
+-Credentials settings
+
+You first need to create an API Key at https://www.tractis.com/webservices/lta. The using the key/secret values you must fill the values at the file soap/property for USERNAME and PASS but leaving untouched url.
+
+-Client Usage
+
+Here we include an example code using most of provided features for dealing with content lifecycle.
+
+	require 'lib/content_storage_service_client'
+
+	client = ContentStorageServiceClient.new
+
+	#store a content attaching a set of properties to it
+	properties = {'content_type' => "My content Type", 'tag' => "Invoice", 'client' => "My best client"}
+	identifier = client.store("Test content", properties)
+
+	...
+
+	#recover
+	contents = client.recover(identifier)
+
+	#server response may include many contents returned as an array
+	contentResponse = contents[0]
+
+	#recover content body
+	body = contentResponse.content 
+	
+	#content properties
+	recovered_properties = contentResponse.properties
+
+	#protection measures over the content
+	protection_measures = contentResponse.protectionMeasure
+	
+	#check one of the measures
+	measure = proection_measures[0]
+
+	#printing application and expiration dates for measure
+	puts measure.applicationDate
+	puts measure.expirationDate
+	...
+
+	#getting protection measure content
+	#this includes the base64 encoded body of the timestamp protecting the content
+	measure_content = measure.protectionContent 
+
+
+	#you can recover a content by a subset of it's properties
+	query_properties = {'tag' => "Invoice"}
+	content_by_properties = client.recover_by_properties(query_properties)
+
+	...
+
+	#If you want to delete the content (WARN, cannot be undone)
+	client.delete(identifier)

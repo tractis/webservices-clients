@@ -1,0 +1,4 @@
+client.protocol.http.basic_auth.1.url = https://api.tractis.com:443/lta
+client.protocol.http.basic_auth.1.userid = USERNAME
+client.protocol.http.basic_auth.1.password = PASS
+

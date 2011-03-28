@@ -31,17 +31,30 @@ With the gem installed just require it to start using it.
 require 'rubygems'
 require 'dss_client'
 
-connector = DssClient.new
+@connector = DssClient.new
 
-Now to validate a signature (detached) over a document just perform
+Signature validation
+---------------------
+
+	#Now to validate a signature (detached) over a document just perform
 
 	result = @connector.validate_signature(signature, document, {})
 
-Result will include the validation result.
+	#Result will include the validation result.
 
-To validate and update a signature to a form (f.ex XAdES X-L)
+Signature validation and completition
+-------------------------------------
+
+	#To validate and update a signature to a form (f.ex XAdES X-L)
 
 	result = @connector.validate_signature(signature, document, {:form => 'urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-X-L'})
 
-Result will include the validation result as well as the updated signature.
+	#Result will include the validation result as well as the updated signature.
+
+
+Timestamp generation
+--------------------
+	document = "Hello this is a content but you can provide content from any source"
+	result = @connector.stamp_content(document)
+	timestamp = result.signature_object
 

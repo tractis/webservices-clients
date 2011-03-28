@@ -1,3 +1,4 @@
 This folder includes all libraries programmed on ruby.
 Currently it includes :
 	+ DSS based lib (Validation Authority Client and Timestamp Authority)
+	+ LTA (Client to access lta Service)

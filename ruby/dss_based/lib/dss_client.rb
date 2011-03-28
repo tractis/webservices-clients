@@ -7,7 +7,7 @@ class DssClient
 	
 	require 'openssl'
 
-	def initialize(url = "https://backend.tractis.com/is2/dss/verify")
+	def initialize(url = "https://api.tractis.com/sva")
 		@va_connector = VaConnector.new(url)
 	end
 

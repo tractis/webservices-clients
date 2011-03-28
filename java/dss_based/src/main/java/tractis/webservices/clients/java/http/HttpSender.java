@@ -13,7 +13,7 @@ public class HttpSender {
 	
 	private HTTPCommunicationManager manager;
 	private String requestURI;
-	private Integer timeout = 5000;
+	private Integer timeout = 50000;
 	
 	public static final String applicationMimeType= "text/xml; charset=\"UTF-8\"";
 	public static final String timestampMimeType= "application/timestamp-query";

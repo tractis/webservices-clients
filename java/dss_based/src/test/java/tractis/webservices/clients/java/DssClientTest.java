@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import tractis.webservices.clients.java.protocol.DSSResult;
 import tractis.webservices.clients.java.protocol.ResultCode;
+import tractis.webservices.clients.java.utils.StreamUtils;
 
 /**
  * Tests DssClient vs a service using some fixtures. This test will only works in environments properly configured to invoke a remote DSS service 
@@ -63,6 +64,15 @@ public class DssClientTest
     	validateSignature = client.validateSignature(validateSignature.getUpdatedSignature(), document());
     	assertEquals(ResultCode.VALID, validateSignature.getResult());
     	assertNull(validateSignature.getUpdatedSignature());
+    }
+    
+    public void testGenerateTimestamp() throws Exception{
+    	InputStream document = document();
+    	InputStream generateTimestamp = client.generateTimestamp(document);
+    	
+    	assertNotNull(generateTimestamp);
+    	
+    	System.out.println("Timestamp is " + new String(StreamUtils.getBytesFromStream(generateTimestamp)));
     }
     
     private InputStream signature(){

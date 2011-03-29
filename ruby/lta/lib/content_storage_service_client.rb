@@ -15,7 +15,7 @@ class ContentStorageServiceClient
   #Creates the endpoint client
   def initialize
     @@location ||= '/content_storage/lta'
-    endpoint_url = "https://api.tractis.com:443/lta".to_s #TODO change it to point to localhost!
+    endpoint_url = "https://api.tractis.com:443/lta".to_s
     puts "Endpoint url is #{endpoint_url}"
     @endpoint = SOAPport.new(endpoint_url)
     h = @endpoint.streamhandler.client

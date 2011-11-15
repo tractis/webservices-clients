@@ -14,7 +14,7 @@ All the code in this project has been licensed under MIT license model. Referenc
 
 Here we provide a copy of the MIT License that applies to the whole project source code and documentation.
 
-Copyright (c) 2010 Tractis
+Copyright (c) 2011 Tractis
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal

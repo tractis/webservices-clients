@@ -1,0 +1,36 @@
+PHP TSA RF3161 client for PHP
+--------
+
+Create and validate timestamps for Tractis Webservices TSA
+
+Usage
+--------
+
+First create an API Key on https://www.tractis.com/webservices/tsa/apikeys
+
+Edit the example.php file and put your identifier/secret on $api_identifier and $api_secret
+
+Set the content to stamp, modify: $my_hash = sha1("content to stamp");
+
+Then, you can invoke the client with the command php example.php or integrating it in your application
+
+The example timestamps a sample text, then validates it and make a test of a manipulated content
+
+Thanks
+--------
+
+The client is based in the code from David Müller - http://www.d-mueller.de/blog/dealing-with-trusted-timestamps-in-php-rfc-3161 adapted to the authentication and url of Tractis Webservices TSA
+
+Dependencies
+--------
+
+Based on OpenSSL and RFC 3161: http://www.ietf.org/rfc/rfc3161.txt
+
+ WARNING: 
+ needs openssl ts, which is availible in OpenSSL versions >= 0.99
+ This is currently (2011-03-02) not the case in Debian
+ (see http://stackoverflow.com/questions/5043393/openssl-ts-command-not-working-trusted-timestamps)
+  -> Possibility: Debian Experimentals -> http://wiki.debian.org/DebianExperimental 
+ For OpenSSL on Windows, see
+  http://www.slproweb.com/products/Win32OpenSSL.html
+  http://www.switch.ch/aai/support/howto/openssl-windows.html
